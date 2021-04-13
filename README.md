@@ -1,6 +1,6 @@
 # CS1660 Project Option 2
 
-I've only tested this on a Mac.
+NOTE: I've only tested this on a Mac.
 ## Steps:
 
 1) Clone or Download this repository
