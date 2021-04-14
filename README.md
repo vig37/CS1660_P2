@@ -22,7 +22,7 @@ To fix that:
 3) Set **memory** to 4GB and if this memory issue occurs again, try increasing it
 4) Increase **disk image size** by 2GBs as well
 
-## Video Link:
+## Demo Video Links:
 https://pitt.box.com/s/sbdweudso8ydw972dgxbdxxkztldqit0
 
 In case that doesn't work:
