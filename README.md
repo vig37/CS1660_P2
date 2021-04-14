@@ -1,7 +1,7 @@
 # CS1660 Project Option 2
 
 NOTE: I've only tested this on a Mac.
-## Steps to run:
+## To run containers:
 
 1) Clone or Download this repository
 2) Open up the terminal/command prompt and `cd` into the location of where you downloaded it _example: cd Desktop/CS1660_P2_
