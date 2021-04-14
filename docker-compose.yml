@@ -1,0 +1,166 @@
+version: "3.8"
+services:
+  # we want to load all these images before the main app (the gui thing)
+  # RStudio container --> https://hub.docker.com/r/rocker/rstudio -- WORKS
+  rstudio:
+    image: "rocker/rstudio"
+    container_name: rstudio-cont
+    ports:
+      - "8787:8787"
+    environment:
+      - DISABLE_AUTH=true
+  # Spyder container --> https://hub.docker.com/r/compdatasci/spyder-desktop -- i honestly have no idea why it only shows a terminal? 
+  spyder:
+    image: "compdatasci/spyder-desktop"
+    container_name: spyder-cont
+    ports:
+      - "6080:6080"
+    environment:
+      PASSWORD: password  
+  # Git container -- i have no idea what's wrong with this one rn
+  git:
+    image: "gitea/gitea:1.12.4"
+    container_name: git-cont
+    volumes:
+      - ./data:/data
+    ports:
+      - "3000:3000"
+      - "22:22"
+    depends_on:
+      - db
+    restart: always
+  db:
+    image: "mariadb:10"
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=changeme
+      - MYSQL_DATABASE=gitea
+      - MYSQL_USER=gitea
+      - MYSQL_PASSWORD=changeme
+    volumes:
+      - ./db/:/var/lib/mysql
+
+
+  # Jupyter Notebook container --> https://hub.docker.com/r/jupyter/datascience-notebook/ --- WORKS
+  jupyter:
+    command:
+    - start-notebook.sh
+    - --NotebookApp.token=''  # stopping tokens so user doesn't have to look through terminal
+    image: "jupyter/datascience-notebook:latest"
+    container_name: jupyter-cont
+    ports:
+      - "8888:8888"
+    environment:
+      - JUPYTER_ENABLE_LAB=yes # to enable jupyter lab in the container
+    volumes:
+      - .:/code
+
+  # Orange container -->https://hub.docker.com/r/acopar/orange-docker
+  # password = orange (terminal decided that was the password o_o)
+  orange:
+    image: "acopar/orange-docker"
+    container_name: orange-cont
+    ports:
+    - "5901:5901"
+    - "6901:6901"
+    stdin_open: true
+    tty: true
+    volumes:
+    - ./datasets:/home/orange/datasets
+
+  # VS Code IDE container --> https://hub.docker.com/r/codercom/code-server -- WORKS
+  # this is so cool -- if it requests a password, it's "password"
+  vscode:
+    image: "jefferyb/code-server"
+    container_name: vscode-cont
+    environment:
+      CODER_PASSWORD: password 
+    ports:
+    - "9001:9000"
+    volumes:
+    - .:/home/coder/project
+
+  # Apache Hadoop container
+  
+
+  # Apache Spark container
+  spark-master:
+    image: "bde2020/spark-master:3.1.1-hadoop3.2"
+    container_name: spark-master
+    ports:
+      - "8080:8080"
+      - "7077:7077"
+    environment:
+      - INIT_DAEMON_STEP=setup_spark
+  spark-worker-1:
+    image: bde2020/spark-worker:3.1.1-hadoop3.2
+    container_name: spark-worker-1
+    depends_on:
+      - spark-master
+    ports:
+      - "8081:8081"
+    environment:
+      - "SPARK_MASTER=spark://spark-master:7077"
+  spark-worker-2:
+    image: bde2020/spark-worker:3.1.1-hadoop3.2
+    container_name: spark-worker-2
+    depends_on:
+      - spark-master
+    ports:
+      - "8082:8081"
+    environment:
+      - "SPARK_MASTER=spark://spark-master:7077"
+
+  # SonarQube/Scanner --> https://hub.docker.com/_/sonarqube -- WORKS
+  # user: admin
+  # password: admin
+  sonar:
+    image: "sonarqube"
+    # fixing elasticsearch error? --> https://github.com/SonarSource/docker-sonarqube/issues/285
+    container_name: sonar-cont
+    ports:
+    - "9000:9000"
+
+  # Tensorflow --> https://hub.docker.com/r/tensorflow/tensorflow --- NOT WORKING RIGHT
+  tensorflow:
+    image: "tensorflow/tensorflow:latest-jupyter"
+    container_name: tensorflow-cont
+    ports:
+      - "8882:8888"
+    environment:
+      - JUPYTER_TOKEN=easy
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/tf/notebooks
+
+
+
+  # Markdown --> https://hub.docker.com/r/jonfairbanks/markdown-editor -- WORKS
+  markdown-editor:
+    image: "jonfairbanks/markdown-editor"
+    container_name: "markdown-cont"
+    ports:
+      - 8883:8888
+
+  # Tableau --> https://hub.docker.com/r/pvtmert/tableau/dockerfile -- works-ish
+  tableau:
+    image: "pvtmert/tableau"
+    container_name: "tableau-cont"
+    ports:
+    - "8850:8850"
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+
+  web:
+    container_name: "web-cont"
+    build: ./web
+    ports:
+     - "5000:5000"
+    volumes:
+     - .:/code
+    depends_on:
+      - rstudio
+
+
