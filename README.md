@@ -23,4 +23,8 @@ To fix that:
 4) Increase **disk image size** by 2GBs as well
 
 ## Video Link:
+https://pitt.box.com/s/sbdweudso8ydw972dgxbdxxkztldqit0
+
+In case that doesn't work:
 https://www.youtube.com/watch?v=dloBQKTNVwU
+
