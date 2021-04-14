@@ -21,3 +21,6 @@ To fix that:
 2) Navigate to `settings > resources`
 3) Set **memory** to 4GB and if this memory issue occurs again, try increasing it
 4) Increase **disk image size** by 2GBs as well
+
+## Video Link:
+https://www.youtube.com/watch?v=dloBQKTNVwU
