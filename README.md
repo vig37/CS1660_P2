@@ -18,6 +18,6 @@ When implementing SonarQube, I encountered an error saying I was running out of 
 
 To fix that:
 1) Open up the docker application
-2) Navigate to settings > resources
-3) Set memory to 4GB and if this memory issue occurs again, try increasing it
+2) Navigate to `settings > resources`
+3) Set **memory** to 4GB and if this memory issue occurs again, try increasing it
 4) Increase **disk image size** by 2GBs as well
