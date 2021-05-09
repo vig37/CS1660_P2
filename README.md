@@ -1,4 +1,4 @@
-# CS1660 Project Option 2
+# CS1660 Project Option 1
 
 NOTE: I've only tested this on a Mac.
 ## To run containers:
