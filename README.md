@@ -1,4 +1,4 @@
-# CS1660 Project Option 1
+# Project Option 1 Docker
 
 NOTE: I've only tested this on a Mac.
 ## To run containers:
